@@ -9,4 +9,4 @@ abstract class LoginEvent extends Equatable {
 
 class PostLoginData extends LoginEvent {}
 
-class ChangePasswordVisibility extends LoginEvent {}
+class ChangeObsecureText extends LoginEvent {}

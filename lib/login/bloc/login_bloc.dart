@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_challenge_ronisetiawan/login/model/login.dart';
 import 'package:flutter_challenge_ronisetiawan/login/repository/login_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -12,7 +16,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final formKey = GlobalKey<FormState>();
   final loginRepository = LoginRepository();
 
-  bool passwordVisibility = true;
+  bool obsecureText = true;
 
   LoginBloc() : super(LoginInitial()) {
     on<PostLoginData>((event, emit) async {
@@ -24,18 +28,25 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
       if (formKey.currentState!.validate()) {
         emit(LoginLoading());
-        await loginRepository
-            .postLoginData(username.text, password.text)
-            .then((_) {
+        final response =
+            await loginRepository.postLoginData(username.text, password.text);
+
+        if (response.statusCode == 200) {
+          final res = Login.fromJson(jsonDecode(response.body));
+          final userToken = res.token;
+
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString('userToken', userToken);
+
           emit(LoginSuccess());
-        }).onError((error, stackTrace) {
-          emit(LoginFailed(error.toString()));
-        });
+        } else {
+          emit(LoginFailed(jsonDecode(response.body)['message']));
+        }
       }
     });
 
-    on<ChangePasswordVisibility>((event, emit) {
-      emit(ObsecureText(passwordVisibility = !passwordVisibility));
+    on<ChangeObsecureText>((event, emit) {
+      emit(ObsecureText(obsecureText = !obsecureText));
     });
   }
 

@@ -25,20 +25,24 @@ class LoginView extends StatelessWidget {
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state is LoginSuccess) {
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (_) => const DashboardScreen()),
+              (route) => false);
+
           showDialog(
-            context: context,
-            builder: (context) => CustomDialog(
-              title: 'Login Berhasil',
-              content: 'Selamat anda berhasil masuk kedalam aplikasi IST',
-              image: 'assets/icons/success.png',
-              onPressed: () {
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (_) => const DashboardScreen()),
-                    (route) => false);
-              },
-            ),
-          );
+              context: context,
+              builder: (context) {
+                Future.delayed(const Duration(seconds: 2), () {
+                  Navigator.of(context).pop(true);
+                });
+                return const CustomDialog(
+                  title: 'Login Berhasil',
+                  content:
+                      'Selamat! Anda telah berhasil berhasil masuk ke IST dbugs',
+                  image: 'assets/icons/success.png',
+                );
+              });
         }
 
         if (state is LoginFailed) {
@@ -87,7 +91,6 @@ class LoginView extends StatelessWidget {
                   controller: context.read<LoginBloc>().username,
                   validator: context.read<LoginBloc>().usernameValidator,
                 ),
-                const SizedBox(height: 5),
                 BlocBuilder<LoginBloc, LoginState>(
                   builder: (context, state) {
                     return CustomTextField(
@@ -95,20 +98,17 @@ class LoginView extends StatelessWidget {
                       hintText: 'Masukkan Password anda',
                       controller: context.read<LoginBloc>().password,
                       validator: context.read<LoginBloc>().passwordValidator,
-                      obsecureText:
-                          context.read<LoginBloc>().passwordVisibility,
-                      suffixIcon: context.read<LoginBloc>().passwordVisibility
+                      obsecureText: context.read<LoginBloc>().obsecureText,
+                      suffixIcon: context.read<LoginBloc>().obsecureText
                           ? Icons.visibility_off
                           : Icons.visibility,
                       onSuffixIconPressed: () {
-                        context
-                            .read<LoginBloc>()
-                            .add(ChangePasswordVisibility());
+                        context.read<LoginBloc>().add(ChangeObsecureText());
                       },
                     );
                   },
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 40),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   width: double.infinity,
@@ -116,6 +116,7 @@ class LoginView extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       context.read<LoginBloc>().add(PostLoginData());
+                      FocusManager.instance.primaryFocus?.unfocus();
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(

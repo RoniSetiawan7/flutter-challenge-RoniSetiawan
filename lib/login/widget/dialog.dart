@@ -4,14 +4,12 @@ class CustomDialog extends StatelessWidget {
   final String title;
   final String content;
   final String image;
-  final void Function()? onPressed;
 
   const CustomDialog({
     Key? key,
     required this.title,
     required this.content,
     required this.image,
-    this.onPressed,
   }) : super(key: key);
 
   @override
@@ -50,23 +48,28 @@ class CustomDialog extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 60),
-              ElevatedButton(
-                onPressed: onPressed ?? () => Navigator.of(context).pop(),
-                style: ElevatedButton.styleFrom(
-                  fixedSize: const Size(300, 50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+              Builder(builder: (context) {
+                if (title == 'Login Berhasil') {
+                  return const SizedBox();
+                }
+                return ElevatedButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  style: ElevatedButton.styleFrom(
+                    fixedSize: const Size(300, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    backgroundColor: const Color(0xFF2F82FF),
                   ),
-                  backgroundColor: const Color(0xFF2F82FF),
-                ),
-                child: const Text(
-                  'OK',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14,
+                  child: const Text(
+                    'OK',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                    ),
                   ),
-                ),
-              ),
+                );
+              }),
             ],
           ),
         ),

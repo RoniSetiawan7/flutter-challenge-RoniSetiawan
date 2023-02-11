@@ -1,25 +1,22 @@
 class Login {
-  final int? id;
-
-  final String? username;
-  final String? email;
-  final String? firstName;
-  final String? lastName;
-  final String? gender;
-  final String? image;
-  final String? token;
-  final String? password;
+  final int id;
+  final String username;
+  final String email;
+  final String firstName;
+  final String lastName;
+  final String gender;
+  final String image;
+  final String token;
 
   Login({
-    this.id,
-    this.username,
-    this.email,
-    this.firstName,
-    this.lastName,
-    this.gender,
-    this.image,
-    this.token,
-    this.password,
+    required this.id,
+    required this.username,
+    required this.email,
+    required this.firstName,
+    required this.lastName,
+    required this.gender,
+    required this.image,
+    required this.token,
   });
 
   factory Login.fromJson(Map<String, dynamic> json) {
@@ -33,12 +30,5 @@ class Login {
       image: json['image'],
       token: json['token'],
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'username': username,
-      'password': password,
-    };
   }
 }

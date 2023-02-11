@@ -40,6 +40,7 @@ class ProductInsight extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
+                          color: Colors.black,
                         ),
                       ),
                       TextSpan(
@@ -61,6 +62,7 @@ class ProductInsight extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
+                          color: Colors.black,
                         ),
                       ),
                       TextSpan(
@@ -82,6 +84,7 @@ class ProductInsight extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
+                          color: Colors.black,
                         ),
                       ),
                       TextSpan(

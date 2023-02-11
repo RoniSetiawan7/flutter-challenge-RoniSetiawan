@@ -30,7 +30,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.product.brand),
+          title: Text(widget.product.title),
           centerTitle: true,
         ),
         body: SingleChildScrollView(
@@ -76,10 +76,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
+                              color: Colors.black,
                             ),
                           ),
                           TextSpan(
-                            text: widget.product.rating.toString(),
+                            text: '${widget.product.rating}',
                             style: const TextStyle(
                               fontSize: 12,
                               color: Colors.grey,
@@ -100,16 +101,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               ),
               const SizedBox(height: 30),
               ProductDetail(
-                price: '\$ ${widget.product.price.toString()}',
-                discountPercentage:
-                    '${widget.product.discountPercentage.toString()}%',
+                price: '\$ ${widget.product.price}',
+                discountPercentage: '${widget.product.discountPercentage}%',
                 priceAfterDiscount:
                     '\$ ${(widget.product.price - (widget.product.price * widget.product.discountPercentage!) / 100).toStringAsFixed(2)}',
-                stock: widget.product.stock.toString(),
+                stock: '${widget.product.stock}',
               ),
               const SizedBox(height: 30),
               ProductDesctiption(
-                description: widget.product.description ?? '-',
+                description: '${widget.product.description}',
               ),
               const SizedBox(height: 20),
             ],

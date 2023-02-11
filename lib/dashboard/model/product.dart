@@ -4,7 +4,7 @@ class Product {
   final String? description;
   final int price;
   final double? discountPercentage;
-  final double? rating;
+  final dynamic rating;
   final int? stock;
   final String brand;
   final String category;
@@ -28,11 +28,11 @@ class Product {
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
       id: json['id'] as int,
-      title: json['title'],
+      title: json['title'] as String,
       description: json['description'] as String,
       price: json['price'] as int,
       discountPercentage: json['discountPercentage'] as double,
-      rating: json['rating'] as double,
+      rating: json['rating'] as dynamic,
       stock: json['stock'] as int,
       brand: json['brand'] as String,
       category: json['category'] as String,

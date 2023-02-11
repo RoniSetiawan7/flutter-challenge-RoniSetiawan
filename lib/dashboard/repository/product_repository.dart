@@ -10,7 +10,7 @@ class ProductRepository {
     );
 
     if (response.statusCode == 200) {
-      List jsonResponse = json.decode(response.body)['products'];
+      List jsonResponse = jsonDecode(response.body)['products'];
       return jsonResponse.map((e) => Product.fromJson(e)).toList();
     } else {
       throw Exception('Failed to load product.');
